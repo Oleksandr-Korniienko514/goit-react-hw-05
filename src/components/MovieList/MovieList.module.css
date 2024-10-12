@@ -23,3 +23,19 @@
 .link {
   text-decoration: none;
 }
+.image, .authorAvatar {
+    transition: transform 0.3s ease; /* Плавный переход */
+}
+
+.image:hover, .authorAvatar:hover {
+    transform: scale(1.1); /* Увеличение изображения */
+}
+
+/* В Reviews.module.css */
+.icon {
+    transition: transform 0.3s ease; /* Плавный переход для иконки */
+}
+
+.icon:hover {
+    transform: scale(1.1); /* Увеличение иконки при наведении */
+}

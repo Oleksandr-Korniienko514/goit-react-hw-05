@@ -1,3 +1,4 @@
+
 const API_KEY = '9b8066abd96eadfb2ba42c632933d8fb';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 
@@ -20,6 +21,7 @@ export const fetchMovieCast = async (movieId) => {
     const response = await fetch(`${BASE_URL}movie/${movieId}/credits?api_key=${API_KEY}`);
     return response.json();
 };
+
 
 export const fetchMovieReviews = async (movieId) => {
     const response = await fetch(`${BASE_URL}movie/${movieId}/reviews?api_key=${API_KEY}`);

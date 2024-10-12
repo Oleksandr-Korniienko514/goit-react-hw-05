@@ -1,4 +1,4 @@
-import { useParams, Outlet, Link } from 'react-router-dom';
+import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchMovieDetails } from '../../service/fetchAPI';
 import ButtonBack from '../../components/ButtonBack/ButtonBack';
@@ -9,13 +9,19 @@ const MovieDetailsPage = () => {
     const { movieId } = useParams();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         setLoading(true);
-        fetchMovieDetails(movieId).then(data => {
-            setMovie(data);
-            setLoading(false);
-        });
+        fetchMovieDetails(movieId)
+            .then(data => {
+                setMovie(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setLoading(false);
+                console.error('Error fetching movie details:', error);
+            });
     }, [movieId]);
 
     if (loading) {
@@ -23,7 +29,7 @@ const MovieDetailsPage = () => {
     }
 
     if (!movie) {
-        return null;
+        return <p>Movie details not found.</p>;
     }
 
     return (
