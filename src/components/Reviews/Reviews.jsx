@@ -10,8 +10,12 @@ const Reviews = () => {
 
   useEffect(() => {
     const getReviewsData = async () => {
-      const reviewsData = await fetchMovieReviews(movieId);
-      setReviews(reviewsData.results);
+      try {
+        const reviewsData = await fetchMovieReviews(movieId);
+        setReviews(reviewsData.results || []);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
     };
     getReviewsData();
   }, [movieId]);
@@ -24,26 +28,27 @@ const Reviews = () => {
             <li className={s.listItem} key={review.id}>
               <h3 className={s.authorName}>
                 <span className={s.authorTitle}>Author:</span>
-                {review.author_details.name.length > 1
+                {review.author_details?.name?.length > 1
                   ? review.author_details.name
-                  : review.author_details.username}
+                  : review.author_details?.username || "Anonymous"}
               </h3>
               <div className={s.reviewWrapper}>
-                {review.author_details.avatar_path ? (
+                {review.author_details?.avatar_path ? (
                   <img
                     src={`https://image.tmdb.org/t/p/w500${review.author_details.avatar_path}`}
+                    alt={`Avatar of ${review.author_details?.username || "the author"}`}
                     className={s.authorAvatar}
                   />
                 ) : (
                   <GoPersonFill className={s.icon} />
                 )}
-                <p className={s.reviewContent}>{review.content}</p>
+                <p className={s.reviewContent}>{review.content || "No review content available"}</p>
               </div>
             </li>
           ))}
         </ul>
       ) : (
-        <h2>There are no reviews for that movie.</h2>
+        <h2>There are no reviews for this movie.</h2>
       )}
     </div>
   );

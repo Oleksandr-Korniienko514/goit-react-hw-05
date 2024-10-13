@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { fetchMovieCast } from '../../service/fetchAPI';
 import styles from './MovieCast.module.css';
 
-const MovieCast = ({ movieId }) => {
+const MovieCast = () => {
+    const { movieId } = useParams();
     const [cast, setCast] = useState([]);
     const [error, setError] = useState(null);
 

@@ -1,7 +1,6 @@
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchMovieDetails } from '../../service/fetchAPI';
-import ButtonBack from '../../components/ButtonBack/ButtonBack';
 import Loader from '../../components/Loader/Loader';
 import styles from './MovieDetailsPage.module.css';
 
@@ -10,6 +9,7 @@ const MovieDetailsPage = () => {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
+    const backLink = useRef(location.state?.from || '/movies');
 
     useEffect(() => {
         setLoading(true);
@@ -34,7 +34,7 @@ const MovieDetailsPage = () => {
 
     return (
         <div className={styles.container}>
-            <ButtonBack />
+            <Link to={backLink.current} className={styles.buttonBack}>Go back</Link>
             <div className={styles.movieDetails}>
                 <img
                     src={movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : 'https://via.placeholder.com/300'}
